@@ -42,4 +42,5 @@ cc_library(
   deps = [
     ":builtin_pcre"
   ],
+  visibility = ["//visibility:public"],
 )

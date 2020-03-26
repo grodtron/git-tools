@@ -6,7 +6,7 @@
 +
 +/* #undef GIT_DEBUG_POOL */
 +#define GIT_TRACE 1
-+#define GIT_THREADS 1
++/* #define GIT_THREADS 1 */
 +/* #undef GIT_MSVC_CRTDBG */
 +
 +#define GIT_ARCH_64 1
@@ -28,13 +28,13 @@
 +/* #undef GIT_SSH */
 +/* #undef GIT_SSH_MEMORY_CREDENTIALS */
 +
-+#define GIT_NTLM 1
++/* #define GIT_NTLM 1 */
 +/* #undef GIT_GSSAPI */
 +/* #undef GIT_GSSFRAMEWORK */
 +
 +/* #undef GIT_WINHTTP */
-+#define GIT_HTTPS 1
-+#define GIT_OPENSSL 1
++/* #define GIT_HTTPS 1 */
++/* #define GIT_OPENSSL 1 */
 +/* #undef GIT_SECURE_TRANSPORT */
 +/* #undef GIT_MBEDTLS */
 +
