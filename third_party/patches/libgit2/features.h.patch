@@ -1,0 +1,20 @@
+--- /dev/null
++++ include/git2/sys/features.h
+@@ -0,0 +1,17 @@
++#ifndef INCLUDE_features_h__
++#define INCLUDE_features_h__
++
++#define GIT_TRACE 1
++#define GIT_THREADS 1
++
++#define GIT_ARCH_64 1
++
++// #define GIT_REGEX_BUILTIN 1
++
++#define GIT_HTTPS 1
++#define GIT_OPENSSL 1
++#define GIT_SECURE_TRANSPORT 1
++
++#define GIT_SHA1_OPENSSL 1
++
++#endif

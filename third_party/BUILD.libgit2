@@ -1,0 +1,41 @@
+cc_library(
+  name = "builtin_pcre",
+  srcs = glob(["deps/pcre/**/*.c"]),
+  hdrs = glob(["deps/pcre/**/*.h"]),
+  copts = [
+    "-DHAVE_CONFIG_H",
+    "-iquote", "external/libgit2/deps/pcre",
+  ],
+  strip_include_prefix = "deps/pcre",
+)
+
+cc_library(
+  name = "libgit2",
+  srcs = glob(
+          include=[
+            "src/**/*.h",
+            "src/**/*.c",
+            "deps/**/*.h",
+            "deps/**/*.c",
+          ],
+          exclude=[
+            "src/win32/**/*",
+            "src/hash/sha1/win32.c",
+            "deps/winhttp/**/*",
+            "deps/ntlmclient/**/*",
+            "deps/pcre/**/*",
+          ]), 
+  copts = [
+    "-iquote", "external/libgit2/src",
+    "-iquote", "external/libgit2/include",
+    "-iquote", "external/libgit2/deps/http-parser",
+    #"-iquote", "external/libgit2/deps/ntlmclient",
+    #"-iquote", "external/libgit2/deps/pcre",
+    "-iquote", "external/libgit2/deps/zlib",
+  ],
+  hdrs = glob(["include/**/*.h"]),
+  strip_include_prefix = "include/",
+  deps = [
+    ":builtin_pcre"
+  ],
+)
