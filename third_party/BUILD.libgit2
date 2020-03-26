@@ -10,7 +10,7 @@ cc_library(
 )
 
 cc_library(
-  name = "libgit2",
+  name = "git2",
   srcs = glob(
           include=[
             "src/**/*.h",
@@ -20,17 +20,21 @@ cc_library(
           ],
           exclude=[
             "src/win32/**/*",
-            "src/hash/sha1/win32.c",
+            "src/hash/sha1/**/*",
             "deps/winhttp/**/*",
             "deps/ntlmclient/**/*",
             "deps/pcre/**/*",
-          ]), 
+            "src/transports/auth_ntlm.c",
+          ])
+          + glob(["src/hash/sha1/sha1dc/*"])
+          + [
+            "src/hash/sha1/collisiondetect.c",
+            "src/hash/sha1/collisiondetect.h",
+          ],
   copts = [
     "-iquote", "external/libgit2/src",
     "-iquote", "external/libgit2/include",
     "-iquote", "external/libgit2/deps/http-parser",
-    #"-iquote", "external/libgit2/deps/ntlmclient",
-    #"-iquote", "external/libgit2/deps/pcre",
     "-iquote", "external/libgit2/deps/zlib",
   ],
   hdrs = glob(["include/**/*.h"]),
