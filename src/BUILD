@@ -1,7 +1,7 @@
 cc_binary(
   name = "test",
   srcs = ["test.cc"],
-  deps = ["@libgit2//:git2"],
+  deps = ["@libgit2//:git2", "//git3:git3"],
   copts = ["-std=c++17"],
   linkopts = ["-lstdc++fs"],
 )
