@@ -1,15 +1,12 @@
 #include "git3/branch_iteration.hh"
 #include "git3/branch.hh"
+#include "git3/pointer_types.hh"
 
 #include "git2.h"
 
-#include <memory>
-
 namespace g3 {
 
-BranchIterator::BranchIterator(
-    std::unique_ptr<git_branch_iterator, decltype(&git_branch_iterator_free)>
-        it)
+BranchIterator::BranchIterator(g3::unique_ptr<git_branch_iterator> it)
     : g2_iterator_(std::move(it)) {
   // We start the iterator in basically a "before the beginning" state
   next_();
@@ -36,8 +33,7 @@ BranchIterator& BranchIterator::operator++() {
 
 Branch BranchIterator::operator*() { return std::move(*current_branch_); }
 
-BranchRange::BranchRange(git_branch_iterator* it)
-    : g2_iterator_(it, git_branch_iterator_free) {}
+BranchRange::BranchRange(git_branch_iterator* it) : g2_iterator_(it) {}
 
 BranchIterator BranchRange::begin() {
   return BranchIterator{std::move(g2_iterator_)};

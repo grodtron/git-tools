@@ -1,4 +1,5 @@
 #include "git3/repo.hh"
+#include "git3/pointer_types.hh"
 
 #include <exception>
 #include <string>

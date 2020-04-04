@@ -3,6 +3,7 @@
 #include <string>
 
 #include "git3/branch_iteration.hh"
+#include "git3/pointer_types.hh"
 
 namespace g3 {
 
@@ -13,9 +14,9 @@ class Repo {
   BranchRange branches() const;
 
  private:
-  Repo(git_repository *r) : repo_(r, git_repository_free) {}
+  Repo(git_repository *r) : repo_(r) {}
 
-  std::unique_ptr<git_repository, decltype(&git_repository_free)> repo_;
+  g3::unique_ptr<git_repository> repo_;
 };
 
 }  // namespace g3

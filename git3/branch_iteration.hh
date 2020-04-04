@@ -1,10 +1,10 @@
 #pragma once
 
 #include "git3/branch.hh"
+#include "git3/pointer_types.hh"
 
 #include "git2.h"
 
-#include <memory>
 #include <optional>
 
 namespace g3 {
@@ -13,8 +13,7 @@ class BranchEndIterator {};
 
 class BranchIterator {
  public:
-  BranchIterator(std::unique_ptr<git_branch_iterator,
-                                 decltype(&git_branch_iterator_free)>);
+  BranchIterator(g3::unique_ptr<git_branch_iterator>);
 
   BranchIterator& operator++();
 
@@ -32,10 +31,7 @@ class BranchIterator {
   std::optional<Branch> current_branch_;
 
   // The git2 c-style branch iterator
-  std::unique_ptr<git_branch_iterator, decltype(&git_branch_iterator_free)>
-      g2_iterator_;
-
-  // friend class BranchEndIterator;
+  g3::unique_ptr<git_branch_iterator> g2_iterator_;
 };
 
 class BranchRange {
@@ -47,8 +43,7 @@ class BranchRange {
 
  private:
   // The git2 c-style branch iterator
-  std::unique_ptr<git_branch_iterator, decltype(&git_branch_iterator_free)>
-      g2_iterator_;
+  g3::unique_ptr<git_branch_iterator> g2_iterator_;
 };
 
 }  // namespace g3
