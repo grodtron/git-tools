@@ -12,6 +12,8 @@ class Commit {
 
   std::string hash() const { return git_oid_tostr_s(oid_); }
 
+  const git_oid* oid() const { return oid_; }
+
  private:
   const git_oid* oid_;
 };

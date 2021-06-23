@@ -25,4 +25,14 @@ BranchRange Repo::branches() const {
   return BranchRange(it);
 }
 
+Repo::AheadBehind Repo::aheadBehind(const Branch& local,
+                                    const Branch& upstream) const {
+  AheadBehind result;
+
+  git_graph_ahead_behind(&result.ahead, &result.behind, repo_.get(),
+                         local.commit().oid(), upstream.commit().oid());
+
+  return result;
+}
+
 }  // namespace g3

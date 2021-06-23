@@ -1,4 +1,7 @@
 cc_library(
   name = "termcolor",
-  hdrs = ["include/termcolor/termcolor.hpp"]
+  hdrs = ["include/termcolor/termcolor.hpp"],
+  copts = ["-iquote", "external/termcolor/include"],
+  visibility = ["//visibility:public"],
+  strip_include_prefix = "include",
 )

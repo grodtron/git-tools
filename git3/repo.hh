@@ -2,7 +2,9 @@
 
 #include <string>
 
+#include "git3/branch.hh"
 #include "git3/branch_iteration.hh"
+#include "git3/commit.hh"
 #include "git3/pointer_types.hh"
 
 namespace g3 {
@@ -12,6 +14,13 @@ class Repo {
   static Repo open(std::string path);
 
   BranchRange branches() const;
+
+  struct AheadBehind {
+    size_t ahead;
+    size_t behind;
+  };
+
+  AheadBehind aheadBehind(const Branch &local, const Branch &upstream) const;
 
  private:
   Repo(git_repository *r) : repo_(r) {}

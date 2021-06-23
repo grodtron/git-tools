@@ -1,6 +1,8 @@
 #include <filesystem>
 #include <iostream>
 
+#include "termcolor/termcolor.hpp"
+
 #include "git2.h"
 
 #include "git3/repo.hh"
@@ -15,6 +17,17 @@ int main(int argc, const char *argv[]) {
   for (const auto b : repo.branches()) {
     const auto upstream = b.upstream();
     std::cout << b.name() << "(" << b.commit().hash() << ")"
-              << " -> " << (upstream ? upstream.name() : "None") << std::endl;
+              << " -> " << termcolor::yellow
+              << (upstream ? upstream.name() : "None") << termcolor::reset
+              << ")" << std::endl;
+
+    if (upstream) {
+      const auto aheadBehind = repo.aheadBehind(b, upstream);
+
+      std::cout << "  " << termcolor::green << termcolor::bold << "+"
+                << aheadBehind.ahead << termcolor::reset << "|"
+                << termcolor::red << termcolor::bold << "-"
+                << aheadBehind.behind << termcolor::reset << std::endl;
+    }
   }
 }
