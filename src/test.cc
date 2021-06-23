@@ -13,6 +13,8 @@ int main(int argc, const char *argv[]) {
   auto repo = g3::Repo::open(pwd.c_str());
 
   for (const auto b : repo.branches()) {
-    std::cout << b.name() << std::endl;
+    const auto upstream = b.upstream();
+    std::cout << b.name() << " -> " << (upstream ? upstream.name() : "None")
+              << std::endl;
   }
 }

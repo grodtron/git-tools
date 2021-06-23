@@ -12,12 +12,31 @@ class Branch {
  public:
   Branch(git_reference* branch) : branch_(branch) {}
 
+  explicit operator bool() const { return static_cast<bool>(branch_); }
+
   std::string name() const {
     const char* n = nullptr;
 
-    git_branch_name(&n, branch_.get());
+    const auto result = git_branch_name(&n, branch_.get());
 
-    return n;
+    if (result == GIT_EINVALID) {
+      // TODO how do we handle this error condition?
+      return "INVALID BRANCH";
+    } else {
+      return n;
+    }
+  }
+
+  Branch upstream() const {
+    git_reference* out = nullptr;
+
+    const auto result = git_branch_upstream(&out, branch_.get());
+
+    if (result == GIT_ENOTFOUND) {
+      return Branch(nullptr);
+    } else {
+      return Branch(out);
+    }
   }
 
  private:
