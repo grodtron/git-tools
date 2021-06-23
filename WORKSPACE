@@ -10,9 +10,9 @@ git_repository(
 new_git_repository(
   name = "libgit2",
   commit = "172239021f7ba04fe7327647b213799853a9eb89",
-  remote = "/home/gordon/libgit2",
+  # remote = "/home/gordon/libgit2",
   shallow_since = "1582108020 +0100",
-  # remote = "https://github.com/libgit2/libgit2.git",
+  remote = "https://github.com/libgit2/libgit2.git",
   build_file = "@//third_party:BUILD.libgit2",
   patches = [
     "//third_party:patches/libgit2/features.h.patch",
@@ -20,4 +20,11 @@ new_git_repository(
   ]
 )
 
+new_git_repository(
+  name = "termcolor",
+  commit = "67eb0aa55e48ead9fe2aab049f0b1aa7943ba0ea",
+  remote = "https://github.com/ikalnytskyi/termcolor",
+  build_file = "@//third_party:BUILD.termcolor",
+  shallow_since = "1614533514 +0200"
+)
 
