@@ -14,7 +14,7 @@ int main(int argc, const char *argv[]) {
 
   for (const auto b : repo.branches()) {
     const auto upstream = b.upstream();
-    std::cout << b.name() << " -> " << (upstream ? upstream.name() : "None")
-              << std::endl;
+    std::cout << b.name() << "(" << b.commit().hash() << ")"
+              << " -> " << (upstream ? upstream.name() : "None") << std::endl;
   }
 }
