@@ -1,10 +1,23 @@
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
 
 git_repository(
-  name = "gtest",
-  commit = "703bd9caab50b139428cea1aaff9974ebee5742e",
-  shallow_since = "1570114335 -0400",
+  name = "com_google_googletest",
+  commit = "e2239ee6043f73722e7aa812a459f54a28552929", # 1.11.0
+  shallow_since = "1623433346 -0700",
   remote = "https://github.com/google/googletest.git",
+)
+
+git_repository(
+  name = "com_github_google_benchmark",
+  shallow_since = "1623228732 +0300",
+  commit = "e991355c02b93fe17713efe04cbc2e278e00fdbd", # v1.5.5
+  remote = "https://github.com/google/benchmark.git"
+)
+
+git_repository(
+  name = "abseil",
+  commit = "278e0a071885a22dcd2fd1b5576cc44757299343", # Abseil LTS 20210324, Patch 2
+  remote = "https://github.com/abseil/abseil-cpp.git",
 )
 
 new_git_repository(
