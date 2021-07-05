@@ -34,8 +34,10 @@ class unique_ptr : public internal::std_unique_ptr<T> {
   unique_ptr(T* t) noexcept
       : internal::std_unique_ptr<T>(t, internal::deleter<T>) {}
 
-  unique_ptr() noexcept : internal::std_unique_ptr<T>() {}
-  unique_ptr(std::nullptr_t) noexcept : internal::std_unique_ptr<T>(nullptr) {}
+  unique_ptr() noexcept
+      : internal::std_unique_ptr<T>(nullptr, internal::deleter<T>) {}
+  unique_ptr(std::nullptr_t) noexcept
+      : internal::std_unique_ptr<T>(nullptr, internal::deleter<T>) {}
 
   unique_ptr(unique_ptr&& o) noexcept = default;
   unique_ptr& operator=(unique_ptr&&) = default;

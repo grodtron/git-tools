@@ -12,9 +12,17 @@ namespace g3 {
 
 class Branch {
  public:
-  Branch(git_reference* branch) : branch_(branch) {}
+  Branch(git_reference* branch) noexcept : branch_(branch) {}
+  Branch() noexcept : branch_(nullptr) {}
+  Branch(nullptr_t) noexcept : branch_(nullptr) {}
 
-  explicit operator bool() const { return static_cast<bool>(branch_); }
+  Branch(Branch&&) noexcept = default;
+  Branch& operator=(Branch&&) noexcept = default;
+
+  Branch(const Branch&) = delete;
+  Branch& operator=(const Branch&) = delete;
+
+  explicit operator bool() const noexcept { return static_cast<bool>(branch_); }
 
   std::string name() const {
     const char* n = nullptr;
