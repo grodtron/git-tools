@@ -5,6 +5,7 @@
 
 #include "git2.h"
 
+#include "git3/branch_tree.hh"
 #include "git3/repo.hh"
 
 int main(int argc, const char *argv[]) {
@@ -22,6 +23,8 @@ int main(int argc, const char *argv[]) {
 
   auto repo = g3::Repo::open(pwd.c_str());
 
+  g3::BranchTreeBuilder builder;
+
   for (const auto b : repo.branches()) {
     const auto upstream = b.upstream();
     std::cout << b.name() << "(" << b.commit().hash() << ")"
@@ -38,4 +41,10 @@ int main(int argc, const char *argv[]) {
                 << aheadBehind.behind << termcolor::reset << std::endl;
     }
   }
+
+  for (auto b : repo.branches()) {
+    builder.addBranch(std::move(b));
+  }
+
+  builder.buildTree();
 }
