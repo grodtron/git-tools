@@ -5,8 +5,6 @@
 
 #include "git2.h"
 
-#include <optional>
-
 namespace g3 {
 
 class BranchEndIterator {};
@@ -19,6 +17,12 @@ class BranchIterator {
 
   Branch operator*();
 
+  // TODO - need to verify, is this an OK way to compare to end? Because our
+  // dereference operator actually moves out the value at the current point in
+  // the operation, so if we check equal to end _after_ dereferencing, then we
+  // would get true.
+  //
+  // Is this acceptable?
   bool operator!=(const BranchEndIterator& other) {
     // If the iterator has a current branch, then it's not equal to the end
     // iterator
@@ -28,7 +32,7 @@ class BranchIterator {
  private:
   void next_();
 
-  std::optional<Branch> current_branch_;
+  Branch current_branch_;
 
   // The git2 c-style branch iterator
   g3::unique_ptr<git_branch_iterator> g2_iterator_;

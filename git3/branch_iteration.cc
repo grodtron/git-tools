@@ -20,7 +20,7 @@ void BranchIterator::next_() {
   auto result = git_branch_next(&branch, &branch_type, g2_iterator_.get());
 
   if (result) {
-    current_branch_ = std::nullopt;
+    current_branch_ = Branch(nullptr);
   } else {
     current_branch_ = Branch(branch);
   }
@@ -31,7 +31,7 @@ BranchIterator& BranchIterator::operator++() {
   return *this;
 }
 
-Branch BranchIterator::operator*() { return std::move(*current_branch_); }
+Branch BranchIterator::operator*() { return std::move(current_branch_); }
 
 BranchRange::BranchRange(git_branch_iterator* it) : g2_iterator_(it) {}
 
