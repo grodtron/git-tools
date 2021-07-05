@@ -13,6 +13,11 @@ namespace g3 {
 class Repo {
  public:
   static Repo open(std::string path);
+  Repo() = default;
+  Repo(Repo &) = delete;
+  Repo(Repo &&) = default;
+  Repo &operator=(Repo &) = delete;
+  Repo &operator=(Repo &&) = default;
 
   BranchRange branches() const;
 

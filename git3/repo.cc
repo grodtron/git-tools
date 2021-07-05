@@ -6,6 +6,8 @@
 
 namespace g3 {
 
+// TODO - should probably return a unique_ptr to a Repo so that
+// we can also have a null repo.
 Repo Repo::open(std::string path) {
   git_repository* repo = nullptr;
 
