@@ -3,6 +3,7 @@
 #include <string>
 
 #include "git3/commit.hh"
+#include "git3/oid.hh"
 #include "git3/pointer_types.hh"
 
 #include "git2.h"
@@ -39,6 +40,8 @@ class Branch {
       return Branch(out);
     }
   }
+
+  Oid oid() const { return git_reference_target(branch_.get()); }
 
   Commit commit() const {
     const auto oid = git_reference_target(branch_.get());
