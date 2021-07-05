@@ -9,7 +9,15 @@
 
 int main(int argc, const char *argv[]) {
   git_libgit2_init();  // TODO
+  // NOTE: this doesn't work when running under Bazel, cause it
+  // finds the crazy bazel directory
   // const auto pwd = std::filesystem::current_path();
+  //
+  if (argc < 2) {
+    std::cout << "Usage: " << argv[0] << " <path-to-git-repo>" << std::endl;
+    return 1;
+  }
+
   const std::string pwd = argv[1];
 
   auto repo = g3::Repo::open(pwd.c_str());
