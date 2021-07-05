@@ -5,6 +5,10 @@ git_repository(
   commit = "e2239ee6043f73722e7aa812a459f54a28552929", # 1.11.0
   shallow_since = "1623433346 -0700",
   remote = "https://github.com/google/googletest.git",
+  patches = [
+    # Remove import of abseil (we can use our own), below
+    "//third_party:patches/com_google_googletest/WORKSPACE.patch"
+  ]
 )
 
 git_repository(
@@ -15,9 +19,13 @@ git_repository(
 )
 
 git_repository(
-  name = "abseil",
+  name = "com_google_absl",
   commit = "278e0a071885a22dcd2fd1b5576cc44757299343", # Abseil LTS 20210324, Patch 2
   remote = "https://github.com/abseil/abseil-cpp.git",
+  patches = [
+    # Remove imports of gtest and gmock, use these ones
+    "//third_party:patches/com_google_absl/WORKSPACE.patch"
+  ]
 )
 
 new_git_repository(
