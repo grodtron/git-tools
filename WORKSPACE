@@ -49,3 +49,9 @@ new_git_repository(
   shallow_since = "1614533514 +0200"
 )
 
+new_git_repository(
+  name = "fmt",
+  commit = "9e8b86fd2d9806672cc73133d21780dd182bfd24", # 8.0.0
+  remote = "https://github.com/fmtlib/fmt.git",
+  build_file = "@//third_party:BUILD.fmt"
+)
