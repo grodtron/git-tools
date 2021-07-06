@@ -33,6 +33,9 @@ TEST_F(BranchTreeBuilder, one_commit_no_branch) {
   }
 
   const auto tree = sut.buildTree();
+
+  ASSERT_EQ(tree.root()->name(), "master");
+  ASSERT_EQ(tree.root().children().size(), 0);
 }
 
 TEST_F(BranchTreeBuilder, two_branches) {
@@ -49,22 +52,46 @@ TEST_F(BranchTreeBuilder, two_branches) {
   }
 
   const auto tree = sut.buildTree();
+
+  ASSERT_EQ(tree.root()->name(), "master");
+  ASSERT_EQ(tree.root().children().size(), 1);
+
+  const auto& firstChild = *tree.root().children().begin();
+
+  ASSERT_EQ(firstChild->name(), "A");
+  ASSERT_EQ(firstChild.children().size(), 1);
+
+  const auto& grandChild = *firstChild.children().begin();
+
+  ASSERT_EQ(grandChild->name(), "B");
+  ASSERT_EQ(grandChild.children().size(), 0);
 }
 
 TEST_F(BranchTreeBuilder, cycle) {
   g3::BranchTreeBuilder sut;
 
   initial_commit();
+  add_branch("C");
   add_branch("A");
   add_branch("B");
-  add_branch("C");
-  set_upstream("B", "A");
   set_upstream("C", "B");
+  set_upstream("B", "A");
   set_upstream("A", "C");
 
   for (auto b : repo().branches()) {
     sut.addBranch(std::move(b));
   }
 
-  ASSERT_THROW(sut.buildTree(), g3::CycleDetected);
+  try {
+    sut.buildTree();
+    FAIL() << "g3::CycleDetected should be thrown";
+  } catch (g3::CycleDetected& e) {
+    const auto cycle = g3::BranchTreeBuilder::buildCycle(std::move(e));
+
+    const auto& branches = cycle.branches();
+    ASSERT_EQ(branches.size(), 3);
+    ASSERT_EQ(branches[0].name(), "A");
+    ASSERT_EQ(branches[1].name(), "B");
+    ASSERT_EQ(branches[2].name(), "C");
+  }
 }

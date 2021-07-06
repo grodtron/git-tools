@@ -7,6 +7,7 @@ cc_library(
     "@libgit2//:git2",
     "@com_google_absl//absl/container:flat_hash_map",
     "@com_google_absl//absl/base:core_headers",
+    "@range-v3//:range-v3",
   ],
   copts = ["-std=c++17"],
   linkopts = ["-lstdc++fs"],

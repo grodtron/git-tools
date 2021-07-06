@@ -20,6 +20,7 @@ class Oid {
   }
 
   bool operator==(const Oid& o) const { return git_oid_equal(&_oid, &o._oid); }
+  bool operator!=(const Oid& o) const { return !(*this == o); }
 
  private:
   git_oid _oid;

@@ -2,6 +2,8 @@
 
 #include "absl/base/macros.h"
 
+#include "range/v3/algorithm/min_element.hpp"
+
 #include <iostream>
 #include <stdexcept>
 
@@ -27,6 +29,34 @@ bool all_contained(const std::vector<Oid> ids,
   });
 }
 }  // namespace
+
+BranchCycle BranchTreeBuilder::buildCycle(CycleDetected&& e) {
+  auto state = std::move(e._state);
+
+  auto it = ranges::min_element(
+      state._branches, {}, [](const auto& pair) { return pair.second.name(); });
+
+  const auto first_oid = it->first;
+  auto oid = it->first;
+
+  std::vector<Branch> output;
+  output.reserve(state._branches.size());
+
+  do {
+    std::cout << "Adding " << it->second.name() << std::endl;
+    output.emplace_back(std::move(it->second));
+    // state._branches.erase(it);
+
+    const auto downstream_it = state._edges.find(it->first);
+    const auto& downstream_branches = downstream_it->second;
+    ABSL_ASSERT(downstream_branches.size() == 1);
+
+    it = state._branches.find(downstream_branches[0]);
+    oid = it->first;
+  } while (first_oid != oid);
+
+  return {std::move(output)};
+}
 
 BranchTree BranchTreeBuilder::buildTree() {
   return BranchTreeBuilder::buildTree(std::move(this->_state));

@@ -21,6 +21,11 @@ class BranchTreeNode {
   BranchTreeNode(BranchTreeNode&&) noexcept = default;
   BranchTreeNode& operator=(BranchTreeNode&&) noexcept = default;
 
+  const Branch* operator->() const noexcept { return &_branch; }
+  const std::vector<BranchTreeNode>& children() const noexcept {
+    return _downstreamBranches;
+  }
+
  private:
   Branch _branch;
   std::vector<BranchTreeNode> _downstreamBranches;
@@ -29,6 +34,8 @@ class BranchTreeNode {
 class BranchTree {
  public:
   BranchTree(BranchTreeNode root) noexcept : _root(std::move(root)) {}
+
+  const BranchTreeNode& root() const noexcept { return _root; }
 
  private:
   BranchTreeNode _root;
@@ -41,11 +48,15 @@ class BranchCycle {
   BranchCycle(std::vector<Branch>&& branches) noexcept
       : _branches(std::move(branches)) {}
 
+  const std::vector<Branch>& branches() const noexcept { return _branches; }
+
  private:
   // Each branch's upstream is the following branch. The last
   // branch's upstream is the first branch
   std::vector<Branch> _branches;
 };
+
+class CycleDetected;
 
 class BranchTreeBuilder {
  public:
@@ -72,6 +83,9 @@ class BranchTreeBuilder {
   // move Branch objects out of the internal state
   BranchTree buildTree();
 
+  static BranchCycle buildCycle(g3::CycleDetected&&);
+
+ private:
   // Build a branch tree object, moving branches from the State
   // object into the Tree.
   static BranchTree buildTree(State&&);
@@ -80,7 +94,6 @@ class BranchTreeBuilder {
   // object into the Cycle.
   static BranchCycle buildCycle(State&&);
 
- private:
   State _state;
 };
 

@@ -12,6 +12,13 @@ git_repository(
 )
 
 git_repository(
+  name = "range-v3",
+  shallow_since = "1596755110 -0600",
+  commit = "4989f3e9ff2efee1852942bb9328ef121369ba02", # 0.11.0
+  remote = "https://github.com/ericniebler/range-v3.git",
+)
+
+git_repository(
   name = "com_github_google_benchmark",
   shallow_since = "1623228732 +0300",
   commit = "e991355c02b93fe17713efe04cbc2e278e00fdbd", # v1.5.5
