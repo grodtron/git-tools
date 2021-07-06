@@ -1,5 +1,4 @@
 #include "git3/branch_tree.hh"
-#include "git3/exceptions/exceptions.hh"
 
 #include "absl/base/macros.h"
 
