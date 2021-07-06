@@ -59,21 +59,8 @@ BranchTree BranchTreeBuilder::buildTree(State&& state) {
       // If that branch has no downstream _or_ we have already created
       // nodes for all of its downstreams, then we can create a node for
       // it, and delete it.
-      //
-      // /usr/include/c++/8/bits/stl_pair.h: In instantiation of
-      //     'struct std::pair<const g3::Oid, g3::Branch>':
-      // git3/branch_tree.cc:77:35:   required from here
-      // /usr/include/c++/8/bits/stl_pair.h:303:17: error:
-      //      'constexpr std::pair<_T1, _T2>::pair(const std::pair<_T1, _T2>&)
-      //         [with _T1 = const g3::Oid; _T2 = g3::Branch]'
-      //      declared to take const reference, but implicit declaration would
-      //      take non-const
-      //        constexpr pair(const pair&) = default;
-      //                         ^~~~
-      //
 
-      // std::pair<const Oid, Branch>& pair_result = *it;
-      const Oid oid = it->first;  // pair_result.first;
+      const Oid oid = it->first;
 
       auto edge_it = state._edges.find(oid);
 
